@@ -1,6 +1,6 @@
 # pyecsago
 
-Python implementation of the evolutionary clustering ECSAGO - Evolutionary Clustering with Self Adaptive Genetic Operators
+Python implementation of the evolutionary clustering algorithm ECSAGO - Evolutionary Clustering with Self Adaptive Genetic Operators
 
 ## Installation
 
