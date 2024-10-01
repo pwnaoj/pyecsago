@@ -27,10 +27,10 @@ class GeneraIndividuo(Individuo):
             distancias = np.array([jaccard(self.genoma, punto) for punto in datos])
         
         # Calcular pesos y fitness
-        distancias = distancias ** 2
-        pesos = np.exp(-distancias / (2 * self.sigma2))
-        pesos_bin = np.where(pesos >= weight_threshold, 1.0, 0).astype(float)
-        self.sigma2 = np.sum(pesos_bin * distancias) / np.sum(pesos_bin) if np.sum(pesos_bin) != 0 else 1e-10
+        distancias2 = distancias ** 2
+        pesos = np.exp(-distancias2 / (2 * self.sigma2))
+        pesos_bin = np.where(pesos > weight_threshold, 1, 0).astype(float)
+        self.sigma2 = np.sum(pesos_bin * distancias2) / np.sum(pesos_bin) if np.sum(pesos_bin) != 0 else 1e-10
         self.fitness = np.sum(pesos_bin) / self.sigma2
         
         return self.fitness
