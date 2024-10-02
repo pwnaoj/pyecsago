@@ -4,14 +4,13 @@ from abc import ABC, abstractmethod
 
 
 class Individuo(ABC):
-    def __init__(self, genoma, tasa_mutacion=0.01, tasa_cruce=0.7, sigma2=1.0):
-        """Inicializa un individuo con genoma, fitness, tasa mutación, tasa cruce, sigma y tasas de operadores genéticos. Además normaliza las tasas."""
+    def __init__(self, genoma, sigma2=1.0, tasas_operadores=None):
+        """Inicializa un individuo con genoma, fitness, sigma2 y tasas de operadores genéticos. Además normaliza las tasas."""
         self.genoma = np.array(genoma)
         self.fitness = 0
-        self.tasa_mutacion = tasa_mutacion
-        self.tasa_cruce = tasa_cruce
         self.sigma2 = np.array(sigma2)
-        self.tasas_operadores = np.array([self.tasa_cruce, self.tasa_mutacion])
+        if tasas_operadores is None: self.tasas_operadores = {'mutacion_gaussiana': 0.3, 'mutacion_gaussiana_adaptativa': 0.3, 'cruce_lc': 0.2, 'cruce_lcd': 0.2} 
+        else: self.tasas_operadores = tasas_operadores
         self.normalizar_tasas()
 
     @abstractmethod
@@ -21,9 +20,10 @@ class Individuo(ABC):
 
     def normalizar_tasas(self):
         """Normaliza las tasas de los operadores genéticos."""
-        suma = np.sum(self.tasas_operadores)
+        suma = sum(self.tasas_operadores.values())
         if suma > 0:
-            self.tasas_operadores /= suma
+            for operador in self.tasas_operadores:
+                self.tasas_operadores[operador] /= suma
 
 class Poblacion(ABC):
     def __init__(self, num_individuos, individuo_class, *args, **kwargs):
