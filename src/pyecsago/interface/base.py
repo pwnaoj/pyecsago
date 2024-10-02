@@ -38,13 +38,13 @@ class Poblacion(ABC):
 
 class OperadoresEvolutivos(ABC):
     @abstractmethod
-    def mutar(self, individuo):
-        """Aplica la mutación al individuo."""
+    def seleccionar_operador(self, individuo):
+        """Selecciona un operador basado en las tasas del individuo."""
         pass
 
     @abstractmethod
-    def cruzar(self, padre1, padre2):
-        """Aplica el cruce entre dos individuos."""
+    def aplicar_operador(self, padre1, padre2):
+        """Aplica el operador seleccionado al individuo."""
         pass
 
     @abstractmethod
