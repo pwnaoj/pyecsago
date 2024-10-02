@@ -10,9 +10,8 @@ from pyecsago.utils.metrics import (
 
 
 class GeneraIndividuo(Individuo):
-    def __init__(self, genoma, tasa_mutacion=0.01, tasa_cruce=0.7, sigma2=1.0):
-        super().__init__(genoma, tasa_mutacion, tasa_cruce, sigma2)
-        self.tasas_operadores = np.array([self.tasa_cruce, self.tasa_mutacion])
+    def __init__(self, genoma, sigma2=1.0, *args, **kawargs):
+        super().__init__(genoma, sigma2, *args, **kawargs)
         self.normalizar_tasas()
 
     def calcular_fitness(self, datos, weight_threshold, tipo_metrica='euclidiana', p_minkowski=2):
