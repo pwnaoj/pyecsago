@@ -1,0 +1,68 @@
+site_name: pyecsago
+site_url: https://pwnaoj.github.io/pyecsago/
+site_description: Evolutionary Clustering with Self-Adaptive Genetic Operators
+site_author: Joan Sebastian Tamayo Rivera
+
+repo_name: pwnaoj/pyecsago
+repo_url: https://github.com/pwnaoj/pyecsago
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - content.code.copy
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+
+plugins:
+  - search
+  - include-markdown
+  - mkdocs-jupyter:
+      include_source: true
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            show_source: true
+            show_root_heading: true
+            members_order: source
+            docstring_style: google
+            merge_init_into_class: true
+            show_signature_annotations: true
+
+nav:
+  - Home: index.md
+  - Example Notebook: example.ipynb
+  - API Reference:
+      - pyecsago: api/index.md
+      - Core: api/core.md
+      - ECSAGO Implementation: api/ecsago.md
+      - Strategies: api/strategies.md
+      - Utilities: api/utils.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      permalink: true
+  - tables
