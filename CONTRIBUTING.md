@@ -42,30 +42,67 @@ If you are proposing a feature:
 
 Ready to contribute? Here's how to set up `pyecsago` for local development.
 
-1. Download a copy of `pyecsago` locally.
-2. Install `pyecsago` using `poetry`:
+### Prerequisites
 
-    ```console
-    $ poetry install
+* Python >= 3.12
+* [uv](https://docs.astral.sh/uv/) (recommended package manager)
+
+### Setup
+
+1. Fork and clone the repository:
+
+    ```bash
+    git clone https://github.com/pwnaoj/pyecsago
+    cd pyecsago
     ```
 
-3. Use `git` (or similar) to create a branch for local development and make your changes:
+2. Install dependencies (including dev tools):
 
-    ```console
-    $ git checkout -b name-of-your-bugfix-or-feature
+    ```bash
+    uv sync
     ```
 
-4. When you're done making changes, check that your changes conform to any code formatting requirements and pass any tests.
+3. Create a branch for your changes:
+
+    ```bash
+    git checkout -b name-of-your-bugfix-or-feature
+    ```
+
+4. Make your changes and run the tests:
+
+    ```bash
+    uv run pytest --cov --cov-report=term-missing
+    ```
 
 5. Commit your changes and open a pull request.
+
+## Coding Standards
+
+* **Python >= 3.12** — use modern type annotations (PEP 585/604):
+  `list[T]`, `dict[K, V]`, `X | Y`, `X | None` instead of `List`, `Dict`, `Union`, `Optional`.
+* Use `from __future__ import annotations` and `TYPE_CHECKING` for imports only needed by type checkers.
+* All new code must include type annotations for parameters and return values.
+* Follow [PEP 8](https://peps.python.org/pep-0008/) style conventions.
+
+## Testing
+
+* Tests live in the `tests/` directory and use [pytest](https://docs.pytest.org/).
+* Run the full suite with coverage:
+
+    ```bash
+    uv run pytest --cov --cov-report=term-missing
+    ```
+
+* New features and bug fixes should include corresponding tests.
+* Aim for 100% coverage on non-CUDA code paths.
 
 ## Pull Request Guidelines
 
 Before you submit a pull request, check that it meets these guidelines:
 
-1. The pull request should include additional tests if appropriate.
+1. The pull request should include tests if appropriate.
 2. If the pull request adds functionality, the docs should be updated.
-3. The pull request should work for all currently supported operating systems and versions of Python.
+3. The pull request should work for all currently supported versions of Python (3.12+).
 
 ## Code of Conduct
 
