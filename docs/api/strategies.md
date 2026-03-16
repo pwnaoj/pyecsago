@@ -27,3 +27,5 @@
 ## Refinement
 
 ::: pyecsago.strategies.refinement.mde
+
+::: pyecsago.strategies.refinement.cuda_mde
