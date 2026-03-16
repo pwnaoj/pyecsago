@@ -7,42 +7,37 @@ from numpy.typing import ArrayLike
 
 
 class DataValidator:
-    """Validates input data for the ECSAGO algorithm.
+    """Validates input data for the ECSAGO algorithm."""
 
-    Centralizes all data-related validations before usage
-    by the main algorithm classes.
-    """
     @staticmethod
-    def validate_dataset(datos: np.ndarray | ArrayLike | None,
-                        dimensiones: int | None = None) -> np.ndarray:
-        """
-        Valida que el conjunto de datos cumpla con los requisitos necesarios.
-        
+    def validate_dataset(data: np.ndarray | ArrayLike | None,
+                        dimensions: int | None = None) -> np.ndarray:
+        """Validates that the dataset meets the required constraints.
+
         Args:
-            datos: Conjunto de datos a validar
-            dimensiones: Dimensionalidad esperada de los datos (opcional)
-            
+            data: Dataset to validate.
+            dimensions: Expected dimensionality (optional).
+
         Returns:
-            np.ndarray: Datos validados y convertidos a numpy array
-            
+            Validated numpy array.
+
         Raises:
-            ValueError: Si los datos son None o no cumplen con los requisitos
-            TypeError: Si los datos no son del tipo esperado
+            ValueError: If data is None, empty, or has wrong dimensionality.
+            TypeError: If data cannot be converted to a numpy array.
         """
-        if datos is None:
-            raise ValueError("El conjunto de datos no puede ser None")
-            
+        if data is None:
+            raise ValueError("Dataset cannot be None")
+
         try:
-            datos_array = np.asarray(datos)
+            data_array = np.asarray(data)
         except (TypeError, ValueError):  # pragma: no cover
-            raise TypeError("Los datos deben ser convertibles a numpy array")
-            
-        if datos_array.size == 0:
-            raise ValueError("El conjunto de datos no puede estar vacío")
-            
-        if dimensiones is not None and datos_array.shape[1] != dimensiones:
-            raise ValueError(f"La dimensionalidad de los datos ({datos_array.shape[1]}) " 
-                           f"no coincide con la esperada ({dimensiones})")
-            
-        return datos_array
-    
+            raise TypeError("Data must be convertible to a numpy array")
+
+        if data_array.size == 0:
+            raise ValueError("Dataset cannot be empty")
+
+        if dimensions is not None and data_array.shape[1] != dimensions:
+            raise ValueError(f"Data dimensionality ({data_array.shape[1]}) "
+                           f"does not match expected ({dimensions})")
+
+        return data_array

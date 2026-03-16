@@ -1,35 +1,32 @@
-# utils/cuda/compiler.py
+"""CUDA kernel compiler with encoding fallback."""
+
 import cupy as cp
 import tempfile
 import os
 
+
 class CUDAKernelCompiler:
     @staticmethod
     def compile_kernel(source_code: str, kernel_name: str) -> cp.RawKernel:
-        """
-        Compila un kernel CUDA manejando apropiadamente la codificación.
-        
+        """Compiles a CUDA kernel with encoding fallback.
+
         Args:
-            source_code: Código fuente del kernel
-            kernel_name: Nombre del kernel
-            
+            source_code: Kernel source code.
+            kernel_name: Kernel function name.
+
         Returns:
-            Kernel compilado
+            Compiled CUDA kernel.
         """
         try:
-            # Intentar compilación directa
             return cp.RawKernel(source_code, kernel_name)
         except UnicodeEncodeError:
-            # Si falla, usar un archivo temporal con codificación explícita
-            with tempfile.NamedTemporaryFile(mode='w', suffix='.cu', 
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.cu',
                                            encoding='utf-8', delete=False) as f:
                 f.write(source_code)
                 temp_file = f.name
-            
+
             try:
-                # Compilar desde el archivo temporal
                 kernel = cp.RawKernel(source_code, kernel_name)
                 return kernel
             finally:
-                # Limpiar archivo temporal
                 os.unlink(temp_file)

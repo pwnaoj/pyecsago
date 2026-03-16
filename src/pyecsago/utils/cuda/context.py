@@ -1,4 +1,4 @@
-"""pyecsago/utils/cuda/context.py"""
+"""Persistent CUDA context for ECSAGO GPU operations."""
 
 from __future__ import annotations
 
@@ -10,40 +10,30 @@ from typing import Any
 
 
 class CUDAContext:
-    """
-    Contexto CUDA con persistencia de datos para ECSAGO.
-
-    Mantiene el conjunto de datos en la memoria GPU durante todo el ciclo de vida del algoritmo,
-    evitando transferencias repetidas de CPU a GPU.
-    """
+    """Persistent CUDA context that keeps data on GPU across algorithm iterations."""
 
     def __init__(self, data: Any = None) -> None:
-        """
-        Inicializa el contexto CUDA con datos opcionales.
+        """Initializes the CUDA context with optional data.
 
         Args:
-            data: Conjunto de datos a cargar en la GPU (opcional)
+            data: Dataset to load onto GPU (optional).
         """
         self.device = None
         self.stream = None
         self.data_gpu = None
 
-        # Si se proporcionan datos, cargarlos inmediatamente
         if data is not None:
             self.load_data(data)
 
     def load_data(self, data: Any) -> None:
-        """
-        Carga un conjunto de datos en la memoria GPU.
+        """Transfers a dataset to GPU memory.
 
         Args:
-            data: Conjunto de datos a transferir a GPU
+            data: Dataset to transfer.
         """
-        # Asegurar que el dispositivo está inicializado
         if self.device is None:
             self.device = cp.cuda.Device()
 
-        # Cargar datos en GPU
         if isinstance(data, cp.ndarray):
             self.data_gpu = data
         else:
@@ -51,29 +41,21 @@ class CUDAContext:
 
     @contextmanager
     def get_context(self) -> Generator[CUDAContext, None, None]:
-        """
-        Proporciona un contexto CUDA para operaciones GPU.
-
-        Este contexto garantiza que el dispositivo y stream estén
-        correctamente inicializados y que el stream se sincronice al salir.
-        """
+        """Provides a CUDA context with device and stream initialization."""
         try:
-            # Asegurar que el dispositivo está inicializado
             if self.device is None:
                 self.device = cp.cuda.Device()
 
-            # Crear stream si no existe
             if self.stream is None:
                 self.stream = cp.cuda.Stream(non_blocking=True)
 
             yield self
         finally:
-            # Sincronizar el stream antes de salir
             if self.stream is not None:
                 self.stream.synchronize()
 
     def __del__(self) -> None:
-        """Libera los recursos GPU cuando se destruye el contexto."""
+        """Releases GPU resources."""
         try:
             if hasattr(self, 'data_gpu') and self.data_gpu is not None:
                 del self.data_gpu
