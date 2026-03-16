@@ -110,13 +110,39 @@ All parameters are passed as a dictionary to `ECSAGO(config)`.
 
 ### Extraction types
 
+The `extraction_type` parameter is a dictionary `{type: value}` that controls how prototypes are filtered during extraction. The factory always composes two steps: first a **fitness filter** (by the chosen type), then a **niche filter** that removes spatially redundant prototypes.
+
+```python
+# Type 0: Absolute threshold (auto-calculated from data geometry)
+extraction_type = {0: 0}  # value is ignored; threshold = data_size / sigma_max / sigma_factor / 4
+
+# Type 1: Proportion of average fitness
+extraction_type = {1: 0.5}  # keeps individuals with fitness > 50% of the mean
+
+# Type 2: Proportion of maximum fitness (recommended starting point)
+extraction_type = {2: 0.25}  # keeps individuals with fitness > 25% of the best
+
+# Type 3: Proportion of median fitness
+extraction_type = {3: 0.4}  # keeps individuals with fitness > 40% of the median
+
+# Type 4: Minimum density
+extraction_type = {4: 0.001}  # keeps individuals with fitness > 0.001 * n_samples
+```
+
 | Key | Method | Threshold meaning |
 |---|---|---|
-| 0 | `ABSOLUTE_VALUE` | Absolute fitness threshold (auto-calculated) |
+| 0 | `ABSOLUTE_VALUE` | Auto-calculated from data geometry (value is ignored) |
 | 1 | `PROPORTION_AVG` | Proportion of average fitness |
 | 2 | `PROPORTION_MAX` | Proportion of maximum fitness |
 | 3 | `PROPORTION_MEDIAN` | Proportion of median fitness |
-| 4 | `MINIMUM_DENSITY` | Based on minimum density |
+| 4 | `MINIMUM_DENSITY` | Multiplied by dataset size |
+
+**Guidelines:**
+
+- **Type 2 with value 0.2–0.3** is the recommended starting point — selects prototypes with at least 20–30% of the best individual's fitness.
+- **Type 0** is useful when you don't want to calibrate manually — the threshold is derived automatically from data geometry.
+- **Type 4** makes sense with large datasets where each prototype should represent at least a minimum fraction of the data.
+- **Higher values** = more aggressive extraction (fewer, higher-quality prototypes). **Lower values** = more prototypes survive.
 
 ## Output
 
