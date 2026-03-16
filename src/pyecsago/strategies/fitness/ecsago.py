@@ -264,7 +264,7 @@ class CUDAECSAGOFitnessCalculator(ECSAGOFitnessCalculator):  # pragma: no cover
                 distances_squared_gpu, current_sigmas_gpu, weight_threshold, N, M
             )
 
-            sum_weights_gpu, sum_weighted_d2_gpu = self.kernels.reduce_sums_kahan(
+            sum_weights_gpu, sum_weighted_d2_gpu = self.kernels.reduce_sums(
                 binary_weights_gpu, distances_squared_gpu, N, M
             )
 

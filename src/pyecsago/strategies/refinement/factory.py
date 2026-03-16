@@ -6,29 +6,22 @@ from .cuda_mde import CUDAMDE
 
 
 class RefinementStrategyFactory:
-    """
-    Factory para crear estrategias de refinamiento configuradas.
-    
-    Esta clase simplifica la creación y configuración de estrategias
-    de refinamiento, siguiendo el patrón Factory.
-    """
-    
+    """Factory for creating configured refinement strategies."""
+
     @staticmethod
     def create_mde(weight_threshold: float, sigma_factor: float, cuda_context: object | None, use_cuda: bool) -> Refinement:
-        """
-        Crea una estrategia de refinamiento MDE.
-        
+        """Creates an MDE refinement strategy.
+
         Args:
-            weight_threshold: Umbral para binarización de pesos
-            sigma_factor: Factor K para determinar distancia mínima entre prototipos
-            cuda_context: Contexto CUDA para operaciones en GPU
-            use_cuda: Indica si se debe usar la implementación CUDA
-            
+            weight_threshold: Threshold for weight binarization.
+            sigma_factor: K factor for minimum distance between prototypes.
+            cuda_context: CUDA context for GPU operations.
+            use_cuda: Whether to use the CUDA implementation.
+
         Returns:
-            Estrategia de refinamiento MDE configurada
+            Configured MDE refinement strategy.
         """
         if use_cuda and cuda_context is not None:  # pragma: no cover
             return CUDAMDE(weight_threshold, sigma_factor)
         else:
             return MDE(weight_threshold, sigma_factor)
-    

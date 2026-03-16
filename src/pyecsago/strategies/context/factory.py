@@ -9,25 +9,17 @@ from ...implementations.ecsago.context import StandardAlgorithmContext
 
 
 class AlgorithmContextFactory:
-    """
-    Fábrica para crear contextos de algoritmo.
-
-    Esta clase implementa el patrón Factory para crear
-    la implementación adecuada del contexto según la configuración.
-    """
+    """Factory for creating algorithm context instances."""
 
     @staticmethod
     def create_context(config: dict[str, Any]) -> AlgorithmContext:
-        """
-        Crea un nuevo contexto de algoritmo basado en la configuración.
-        
+        """Creates a new algorithm context based on the configuration.
+
         Args:
-            config: Configuración para el contexto
-            
+            config: Algorithm configuration dictionary.
+
         Returns:
-            Contexto de algoritmo configurado
+            Configured algorithm context.
         """
         use_cuda = config.get('use_cuda', False)
-        
-        # Crear instancia de contexto estándar
         return StandardAlgorithmContext(use_cuda=use_cuda)
