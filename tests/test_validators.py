@@ -23,18 +23,18 @@ class TestDataValidator:
             DataValidator.validate_dataset(None)
 
     def test_validate_empty_raises(self):
-        with pytest.raises(ValueError, match="vacío"):
+        with pytest.raises(ValueError, match="empty"):
             DataValidator.validate_dataset(np.array([]))
 
     def test_validate_correct_dimensions(self):
         data = np.array([[1.0, 2.0], [3.0, 4.0]])
-        result = DataValidator.validate_dataset(data, dimensiones=2)
+        result = DataValidator.validate_dataset(data, dimensions=2)
         assert result.shape[1] == 2
 
     def test_validate_wrong_dimensions_raises(self):
         data = np.array([[1.0, 2.0], [3.0, 4.0]])
-        with pytest.raises(ValueError, match="dimensionalidad"):
-            DataValidator.validate_dataset(data, dimensiones=3)
+        with pytest.raises(ValueError, match="dimensionality"):
+            DataValidator.validate_dataset(data, dimensions=3)
 
     def test_validate_no_dimensions_check(self):
         data = np.array([[1.0, 2.0, 3.0]])
