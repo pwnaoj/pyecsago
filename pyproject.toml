@@ -1,6 +1,6 @@
 [project]
 name = "pyecsago"
-version = "0.2.0"
+version = "0.2.1"
 description = "Python implementation of the evolutionary clustering ECSAGO - Evolutionary Clustering with Self Adaptive Genetic Operators"
 authors = [{ name = "Joan Sebastian Tamayo Rivera" }]
 requires-python = ">=3.12,<4"
